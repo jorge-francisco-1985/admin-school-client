@@ -1,5 +1,8 @@
 import axios from "axios";
-const url = "http://localhost/admin-school-server/usuarios/get";
+const url = store.state.serverHost+"usuarios/get";
+import { store } from '../store'
+
+
 
 
 
@@ -22,6 +25,19 @@ class UsuariosService {
     static insertPost(text) {
         return axios.post(url, {
             text
+        })
+    }
+    static loginUser(user){
+        return new Promise(async (resolve,reject)=>{
+            try{
+                const res = await axios.post(store.state.serverHost+"usuarios/login",user);
+                const data = res.data;
+                resolve(
+                    data
+                );
+            } catch (error) {
+                reject(error);
+            }
         })
     }
     // Delete Posts

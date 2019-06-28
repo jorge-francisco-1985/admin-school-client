@@ -26,5 +26,13 @@ export default new Router({
       name: 'Usuarios',
       component: () => import(/* webpackChunkName: "about" */ './views/usuarios.vue')
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import(/* webpackChunkName: "about" */ './views/login.vue'),
+      meta: {
+        guest: true
+      }
+    },
   ]
 })
