@@ -27,7 +27,10 @@
         v-model="menuUsuario"
         :close-on-content-click="false"
         :nudge-width="200"
-        offset-x
+        offset-y
+        bottom
+        class="transparent"
+        transition="slide-y-transition"
       >
         <template v-slot:activator="{ on }">
             <a href="#"
@@ -46,15 +49,15 @@
             
         </template>
   
-        <v-card>
-          <v-list>
+        <v-card style="background:rgba(1,1,1,.7)">
+          <v-list dark style="background:rgba(0,1,1,.0)">
             <v-list-tile avatar>
               <v-list-tile-avatar>
                 <img v-bind:src="user.avatar!=null?store.state.serverHost+user.avatar:require('./assets/default-user-image.png')" alt="asdsd" >
               </v-list-tile-avatar>
   
               <v-list-tile-content>
-                <v-list-tile-title class="text-capitalize">{{user.nombre+" "+user.paterno+" "+user.materno}}</v-list-tile-title>
+                <v-list-tile-title class="text-capitalize ">{{user.nombre+" "+user.paterno+" "+user.materno}}</v-list-tile-title>
                 <!-- <v-list-tile-sub-title>Founder of Vuetify.js</v-list-tile-sub-title> -->
               </v-list-tile-content>
   
@@ -68,7 +71,7 @@
                 </v-btn> -->
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile @click="salir()">
+            <v-list-tile @click="salir()" class="font-weight-regular font-italic">
   
               <v-list-tile-content>
                 <v-list-tile-title ></v-list-tile-title>
