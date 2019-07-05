@@ -14,13 +14,16 @@
             v-model="tabs"
             fixed-tabs
             color="transparent"
+            icons-and-text
           >
             <v-tabs-slider></v-tabs-slider>
-            <v-tab href="#mobile-tabs-5-1" class="primary--text">
-              <v-icon>phone</v-icon>
+            <v-tab :key="1" >
+              Iniciar sesión
+              <v-icon>lock</v-icon>
             </v-tab>
   
-            <v-tab href="#mobile-tabs-5-2" class="primary--text">
+            <v-tab :key="2" >
+              Registrarse
               <v-icon>favorite</v-icon>
             </v-tab>
           </v-tabs>
@@ -30,27 +33,32 @@
           <v-tabs-items v-model="tabs" class="white elevation-1">
             <v-tab-item
               :key="1"
-              :value="'mobile-tabs-5-1'"
+              
             >
               <v-card>
-                <v-card-text>{{ text }}</v-card-text>
+                <v-card-text>
+                  <v-form @submit.prevent="login" id="login-form">
+                    <v-text-field v-model="editedItem.user" prepend-icon="person"  label="Login" type="text"></v-text-field>
+                    <v-text-field v-model="editedItem.pass" prepend-icon="lock"  label="Password" type="password"></v-text-field>
+                    <v-spacer></v-spacer>
+                    
+                  </v-form>
+                </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item
               :key="2"
-              :value="'mobile-tabs-5-2'"
+              
             >
               <v-card>
-                <v-card-text>{{ text }}</v-card-text>
+                <v-card-text>
+                  sadsa
+
+                </v-card-text>
               </v-card>
             </v-tab-item>
           </v-tabs-items>
-          <v-form @submit.prevent="login" id="login-form">
-            <v-text-field v-model="editedItem.user" prepend-icon="person"  label="Login" type="text"></v-text-field>
-            <v-text-field v-model="editedItem.pass" prepend-icon="lock"  label="Password" type="password"></v-text-field>
-            <v-spacer></v-spacer>
-            
-          </v-form>
+          
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" type="submit" form="login-form">Login</v-btn>
