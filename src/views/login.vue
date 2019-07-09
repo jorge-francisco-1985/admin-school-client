@@ -1,27 +1,54 @@
 <template>
-<v-app>
-  <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Iniciar Sesión</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-form @submit.prevent="login" id="login-form">
-                  <v-text-field v-model="editedItem.user" prepend-icon="person"  label="Login" type="text"></v-text-field>
-                  <v-text-field v-model="editedItem.pass" prepend-icon="lock"  label="Password" type="password"></v-text-field>
-                  <v-spacer></v-spacer>
-                  
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="primary" type="submit" form="login-form">Login</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-</v-app>
-    
+  <div>
+    <v-toolbar
+      color="cyan"
+      dark
+      tabs
+    >
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+
+      <v-toolbar-title>Page title</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>more_vert</v-icon>
+      </v-btn>
+
+      <template v-slot:extension>
+        <v-tabs
+          v-model="model"
+          centered
+          color="cyan"
+          slider-color="yellow"
+        >
+          <v-tab
+            v-for="i in 3"
+            :key="i"
+            :href="`#tab-${i}`"
+          >
+            Item {{ i }}
+          </v-tab>
+        </v-tabs>
+      </template>
+    </v-toolbar>
+
+    <v-tabs-items v-model="model">
+      <v-tab-item
+        v-for="i in 3"
+        :key="i"
+        :value="`tab-${i}`"
+      >
+        <v-card flat>
+          <v-card-text v-text="text"></v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+  </div>
 </template>
 <script>
 import UsuarioService from '../services/UsuariosService';
@@ -29,6 +56,8 @@ export default {
   data:() => ({
     datos:"",
     error:"",
+    model: 'tab-2',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     editedItem:{
       user:"",
       pass:""
