@@ -1,14 +1,15 @@
 <template>
+
 <v-app>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
-
+      <v-flex xs12 sm8 md6>
+       
 
 
         <v-card class="elevation-12">
           
           <v-toolbar
-            color="cyan"
+            color="primary"
             dark
             tabs
           >            
@@ -16,18 +17,23 @@
               <v-tabs
                 v-model="model"
                 centered
-                color="cyan"
-                slider-color="yellow"
+                color="primary"
+                slider-color="red"
+                active-class="secondary"
               >
                 <v-tab
-                  href="#tab-1"
+                  href="#login"
                 >
-                  Item 1
+                <v-icon>lock</v-icon>
+                  Login
+                  
+                  
                 </v-tab>
                 <v-tab
-                  href="#tab-2"
+                  href="#signin"
                 >
-                  Item 2
+                <v-icon>person_add</v-icon>
+                  Registro
                 </v-tab>
               </v-tabs>
             </template>
@@ -35,27 +41,61 @@
 
           <v-tabs-items v-model="model">
             <v-tab-item
-              value="tab-1"
+              value="login"
             >
               <v-card flat>
-                <v-card-text v-text="text"></v-card-text>
+                <v-card-text >
+                  <v-form @submit.prevent="login" id="login-form">
+                    <v-text-field v-model="editedItem.user_name" prepend-icon="how_to_reg"  label="Nombre de usuario" type="text"></v-text-field>
+                    <v-text-field v-model="editedItem.pass" prepend-icon="lock"  label="Contraseña" type="password"></v-text-field>
+                    <v-spacer></v-spacer>
+                    
+                  </v-form>
+                  <strong class="red--text">{{errorMessage}}</strong>
+                </v-card-text>
               </v-card>
             </v-tab-item>
-
+            <!-- -> Ficha para registrar usuarios  -->
             <v-tab-item
-              value="tab-2"
+              value="signin"
             >
+            
               <v-card flat>
-                <v-card-text v-text="text"></v-card-text>
+                <v-card-text>
+                  <v-container grid-list-xs>
+                      <v-form @submit.prevent="signin" id="signin-form">
+                        <v-text-field v-model="editedItem.user_name" prepend-icon="how_to_reg"  label="Nombre de usuario" type="text"></v-text-field>
+                        <v-text-field v-model="editedItem.pass" prepend-icon="lock"  label="Contraseña" type="password"></v-text-field>
+                        <v-text-field v-model="editedItem.repass" prepend-icon="lock"  label="Repetir contraseña" type="password"></v-text-field>
+                        <v-text-field v-model="editedItem.email" prepend-icon="alternate_email"  label="Correo Electrónico" type="text"></v-text-field>
+                        <v-text-field v-model="editedItem.nombre" prepend-icon="person"  label="Nombre" type="text"></v-text-field>
+                        <v-text-field v-model="editedItem.paterno" prepend-icon="person"  label="Apellido Paterno" type="text"></v-text-field>
+                        <v-text-field v-model="editedItem.materno" prepend-icon="person"  label="Apellido Materno" type="text"></v-text-field>
+                        
+                        <v-text-field v-model="editedItem.edad" prepend-icon="timer"  label="Edad" type="text"></v-text-field>
+
+                        
+                        
+                      </v-form>
+                  </v-container>
+                  
+
+                </v-card-text>
               </v-card>
             </v-tab-item>
+            <!--  Ficha para registrar usuarios<-  -->
           </v-tabs-items>
-          <v-card-actions>
-            <v-btn color="primary" type="submit" form="login-form">Login</v-btn>
+          
+          <v-card-actions >
+            
+            <v-btn v-show="model=='login'" color="primary" type="submit" form="login-form"   >Iniciar Sesión</v-btn>
+            <v-btn v-show="model=='signin'" color="primary" type="submit" form="signin-form"   >Registrar</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
-    </v-layout>    
+    </v-layout>  
+    <!-- {{datos}} -->
+    
 </v-app>
   
 </template>
@@ -65,11 +105,27 @@ export default {
   data:() => ({
     datos:"",
     error:"",
-    model: 'tab-2',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    errorMessage:"",
+    model: 'signin',    
     editedItem:{
-      user:"",
-      pass:""
+      user_name:"",
+      pass:"",
+      repass:"",
+      email:"",
+      nombre:"",
+      paterno:"",
+      materno:"",
+      edad:""
+    },
+    defaultItem:{
+      user_name:"",
+      pass:"",
+      repass:"",
+      email:"",
+      nombre:"",
+      paterno:"",
+      materno:"",
+      edad:""
     }
   }),
   methods: {
@@ -80,6 +136,8 @@ export default {
           self.$session.set("token",datos.data.token);
           self.$session.set("userData",datos.data.user_data);
           location.href="/";
+        }else{
+          self.errorMessage=datos.message;
         }
         
       }).catch(function(error){
@@ -88,7 +146,28 @@ export default {
       })
       
       
+    },
+    signin () {
+      var self=this;
+      delete self.editedItem.repass;
+      UsuarioService.insertUser(self.editedItem).then(function(response){
+      self.datos=response;
+        
+        // if(datos.code==1){
+        //   self.$session.set("token",datos.data.token);
+        //   self.$session.set("userData",datos.data.user_data);
+        //   location.href="/";
+        // }
+        
+      }).catch(function(error){
+        if (error)
+          self.$session.remove("userData");
+          self.error=error;
+      })
+      
+      
     }
+
   },
   created:function(){
     
