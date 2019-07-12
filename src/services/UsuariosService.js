@@ -25,7 +25,7 @@ class UsuariosService {
     static insertUser(user) {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.post(store.state.serverHost + "usuarios/nuevo", {user:user});
+                const res = await axios.put(store.state.serverHost + "usuarios", {user:user});
                 const data = res.data;
                 resolve(
                     data
