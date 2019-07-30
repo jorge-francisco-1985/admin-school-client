@@ -106,7 +106,7 @@ export default {
     datos:"",
     error:"",
     errorMessage:"",
-    model: 'signin',    
+    model: 'login',    
     editedItem:{
       user_name:"",
       pass:"",
@@ -152,12 +152,11 @@ export default {
       delete self.editedItem.repass;
       UsuarioService.insertUser(self.editedItem).then(function(response){
       self.datos=response;
+        console.log(self.datos);
         
-        // if(datos.code==1){
-        //   self.$session.set("token",datos.data.token);
-        //   self.$session.set("userData",datos.data.user_data);
-        //   location.href="/";
-        // }
+        if(self.datos.code==1){
+          self.model="login";
+        }
         
       }).catch(function(error){
         if (error)

@@ -9,7 +9,25 @@
       
       
     >
-      
+     <v-toolbar color="primary" height="110px">
+      <span class="title ml-3 mr-5">School Admin</span>
+       
+       
+     </v-toolbar>
+      <v-list>
+        <v-list-tile
+          key="1"
+          
+        >
+          <v-list-tile-action>
+            <v-icon>supervised_user_circle</v-icon>
+          </v-list-tile-action>
+  
+          <v-list-tile-content>
+            <router-link to="/usuarios">Usuarios</router-link>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer >
     <v-toolbar color="primary" dark app fixed clipped-left height="110px">
       <v-toolbar-side-icon  @click="drawer = !drawer"></v-toolbar-side-icon>
@@ -115,9 +133,6 @@
     <v-content>
       <v-container >
         <v-card >
-          <v-card-title primary-title>
-            title
-          </v-card-title>
           <v-card-text>
             <router-view></router-view>
           </v-card-text>
